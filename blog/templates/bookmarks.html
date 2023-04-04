@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Bookmarks</h1>
+  {% if bookmarks %}
+    <ul>
+      {% for bookmark in bookmarks %}
+        <li>{{ bookmark.post.title }} - <a href="{% url 'post_detail' pk=bookmark.post.pk %}">View</a> | <a href="{% url 'unbookmark' pk=bookmark.pk %}">Remove</a></li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No bookmarks yet.</p>
+  {% endif %}
+{% endblock %}

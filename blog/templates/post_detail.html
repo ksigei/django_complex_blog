@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="mb-4">{{ post.title }}</h2>
+            <p class="mb-4">{{ post.body }}</p>
+            <div class="mb-4">
+                <small class="text-muted">Published on {{ post.published_date|date:"F j, Y" }} by {{post.author}}</small>
+            </div>
+            <a href="{% url 'post_edit' pk=post.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+            <!-- comment and vote -->
+            <div class="container">
+                {% include 'add_comment_to_post.html' %}
+            </div>
+            {% if user.is_authenticated %}
+            <a href="{% url 'vote' post.pk 1 %}" class="btn btn-success"><i class="fas fa-thumbs-up"></i> Upvote</a>
+            <a href="{% url 'vote' post.pk 0 %}" class="btn btn-danger"><i class="fas fa-thumbs-down"></i> Downvote</a>
+
+            {% endif %}
+
+            {% if comments %}
+            <div class="container">
+                {% for comment in comments %}
+                <p>{{ comment.author }}: {{ comment.content }}</p>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="container">
+                <p>No comments yet.</p>
+            </div>
+            {% endif %}
+            <div class="container">
+                <p class="card-text">Vote count: {{ post.total_votes }}</p>
+            </div>
+            <!-- <div class="container">
+                <p>No votes yet.</p>
+            </div> -->
+            <!-- comment and vote -->
+        </div>
+    </div>
+</div>
+{% endblock %}
